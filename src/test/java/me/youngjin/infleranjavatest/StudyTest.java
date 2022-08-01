@@ -16,6 +16,9 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assumptions.assumeTrue;
 
+// 테스트 메서드마다 StudyTest instance를 새롭게 만든다. -> 테스트간의 의존성을 없애기 위해서
+// 이 기본전략을 변경할 수도 있다. -> 제약이 느슨해지거나 성능상 이점을 얻을 수도 있음 -> BeforeAll, AfterAll이 static method일 필요없음
+@TestInstance(TestInstance.Lifecycle.PER_CLASS)
 @DisplayNameGeneration(DisplayNameGenerator.ReplaceUnderscores.class)
 class StudyTest  {
 
@@ -25,6 +28,7 @@ class StudyTest  {
 //    @EnabledOnJre({JRE.JAVA_8, JRE.JAVA_9, JRE.JAVA_10, JRE.JAVA_11})
 //    @EnabledIfEnvironmentVariable(named = "TEST_ENV", matches = "LOCAL")
     void create_new_study() {
+        System.out.println(this);
         String testEnv = System.getenv("TEST_ENV"); // vi ~/.zshrc
         System.out.println(testEnv);
         assumeTrue("LOCAL".equalsIgnoreCase(testEnv));
@@ -79,6 +83,7 @@ class StudyTest  {
     @SlowTest
     @DisplayName("스터디 만들기 slow")
     void create_new_study_again() {
+        System.out.println(this);
         System.out.println("create1");
         assertNotNull("테스트");
     }
