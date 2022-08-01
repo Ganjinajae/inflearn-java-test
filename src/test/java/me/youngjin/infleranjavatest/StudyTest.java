@@ -1,14 +1,16 @@
 package me.youngjin.infleranjavatest;
 
 import org.junit.jupiter.api.*;
+import org.junit.jupiter.api.extension.ParameterContext;
 import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.aggregator.AggregateWith;
+import org.junit.jupiter.params.aggregator.ArgumentsAccessor;
+import org.junit.jupiter.params.aggregator.ArgumentsAggregationException;
+import org.junit.jupiter.params.aggregator.ArgumentsAggregator;
 import org.junit.jupiter.params.converter.ArgumentConversionException;
 import org.junit.jupiter.params.converter.ConvertWith;
 import org.junit.jupiter.params.converter.SimpleArgumentConverter;
-import org.junit.jupiter.params.provider.EmptySource;
-import org.junit.jupiter.params.provider.NullAndEmptySource;
-import org.junit.jupiter.params.provider.NullSource;
-import org.junit.jupiter.params.provider.ValueSource;
+import org.junit.jupiter.params.provider.*;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -90,15 +92,27 @@ class StudyTest  {
 
     @DisplayName("스터디 만들기")
     @ParameterizedTest(name = "{index} {displayName} message={0}")
-    @ValueSource(ints = {10, 20, 40})
+    @CsvSource({"10, '자바 스터디'", "20, '스프링'"})
 //    @EmptySource
 //    @NullSource
 //    @NullAndEmptySource
-    void parameterizedTest(@ConvertWith(StudyConverter.class) Study study) {
+    void parameterizedTest(@AggregateWith(StudyAggregator.class) Study study) {
         assertNotNull("Parameterized Test 테스트");
         System.out.println(study.getLimit());
     }
 
+    // public class 이거나 static inner class 이어야만 가능함
+    // 그냥 해당 메서드 인자에 ArgumentAccessor를 사용해서 해도 됨
+    // 이렇게 할 경우 Test Code 한 줄이 주는 정도
+    static class StudyAggregator implements ArgumentsAggregator {
+
+        @Override
+        public Object aggregateArguments(ArgumentsAccessor argumentsAccessor, ParameterContext parameterContext) throws ArgumentsAggregationException {
+            return  new Study(argumentsAccessor.getInteger(0), argumentsAccessor.getString(1));
+        }
+    }
+
+    // 파라미터 한 개만 받을 수 있다.
     static class StudyConverter extends SimpleArgumentConverter {
 
         @Override
