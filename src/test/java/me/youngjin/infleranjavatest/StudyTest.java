@@ -1,20 +1,40 @@
 package me.youngjin.infleranjavatest;
 
 import org.junit.jupiter.api.*;
+import org.junit.jupiter.api.condition.*;
 
-import java.time.Duration;
-import java.util.function.Supplier;
-
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assumptions.assumeTrue;
+import static org.junit.jupiter.api.Assumptions.assumingThat;
 
 @DisplayNameGeneration(DisplayNameGenerator.ReplaceUnderscores.class)
 class StudyTest  {
 
     @Test
     @DisplayName("스터디 만들기")
+//    @EnabledOnOs({OS.MAC, OS.LINUX})
+//    @EnabledOnJre({JRE.JAVA_8, JRE.JAVA_9, JRE.JAVA_10, JRE.JAVA_11})
+//    @EnabledIfEnvironmentVariable(named = "TEST_ENV", matches = "LOCAL")
     void create_new_study() {
+        String testEnv = System.getenv("TEST_ENV"); // vi ~/.zshrc
+        System.out.println(testEnv);
+        assumeTrue("LOCAL".equalsIgnoreCase(testEnv));
+        System.out.println("local");
         Study actual = new Study(10);
         org.assertj.core.api.Assertions.assertThat(actual.getLimit()).isGreaterThan(5);
+        // 이런 환경변수 값에 따라 실행을 다르게 할 수 있다.
+//        assumingThat("LOCAL".equalsIgnoreCase(testEnv), () -> {
+//            System.out.println("local");
+//            Study actual = new Study(10);
+//            org.assertj.core.api.Assertions.assertThat(actual.getLimit()).isGreaterThan(5);
+//        });
+//        assumingThat("youngjin".equalsIgnoreCase(testEnv), () -> {
+//            System.out.println("youngjin");
+//            Study actual = new Study(10);
+//            org.assertj.core.api.Assertions.assertThat(actual.getLimit()).isGreaterThan(5);
+//        });
+//        Study actual = new Study(10);
+//        org.assertj.core.api.Assertions.assertThat(actual.getLimit()).isGreaterThan(5);
 //        assertTimeout(Duration.ofMillis(100), () -> {
 //            new Study(10);
 //            Thread.sleep(300);
@@ -47,6 +67,7 @@ class StudyTest  {
     }
 
     @Test
+//    @EnabledIfEnvironmentVariable(named = "TEST_ENV", matches = "youngjin")
     void create_new_study_again() {
         System.out.println("create1");
         assertNotNull("테스트");
