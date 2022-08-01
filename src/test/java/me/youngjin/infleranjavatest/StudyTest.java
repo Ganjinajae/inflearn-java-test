@@ -24,6 +24,8 @@ import static org.junit.jupiter.api.Assumptions.assumeTrue;
 @DisplayNameGeneration(DisplayNameGenerator.ReplaceUnderscores.class)
 class StudyTest  {
 
+    int value = 1;
+
     @Order(2)
     @FastTest
     @DisplayName("스터디 만들기 fast")
@@ -32,6 +34,7 @@ class StudyTest  {
 //    @EnabledIfEnvironmentVariable(named = "TEST_ENV", matches = "LOCAL")
     void create_new_study() {
         System.out.println(this);
+        System.out.println("value: "+ value++);
         String testEnv = System.getenv("TEST_ENV"); // vi ~/.zshrc
         System.out.println(testEnv);
         assumeTrue("LOCAL".equalsIgnoreCase(testEnv));
@@ -86,8 +89,10 @@ class StudyTest  {
     @Order(1)
     @SlowTest
     @DisplayName("스터디 만들기 slow")
+    @Disabled("disabled 테스트")
     void create_new_study_again() {
         System.out.println(this);
+        System.out.println("value: " + value++);
         System.out.println("create1");
         assertNotNull("테스트");
     }
