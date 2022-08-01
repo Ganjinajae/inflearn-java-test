@@ -15,6 +15,7 @@ class StudyTest  {
 //    @EnabledOnOs({OS.MAC, OS.LINUX})
 //    @EnabledOnJre({JRE.JAVA_8, JRE.JAVA_9, JRE.JAVA_10, JRE.JAVA_11})
 //    @EnabledIfEnvironmentVariable(named = "TEST_ENV", matches = "LOCAL")
+    @Tag("fast")
     void create_new_study() {
         String testEnv = System.getenv("TEST_ENV"); // vi ~/.zshrc
         System.out.println(testEnv);
@@ -67,6 +68,7 @@ class StudyTest  {
     }
 
     @Test
+    @Tag("slow") // 다른 환경에서 실행하고 싶을 때 tag를 써서 분리한다.
 //    @EnabledIfEnvironmentVariable(named = "TEST_ENV", matches = "youngjin")
     void create_new_study_again() {
         System.out.println("create1");
