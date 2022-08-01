@@ -18,10 +18,13 @@ import static org.junit.jupiter.api.Assumptions.assumeTrue;
 
 // 테스트 메서드마다 StudyTest instance를 새롭게 만든다. -> 테스트간의 의존성을 없애기 위해서
 // 이 기본전략을 변경할 수도 있다. -> 제약이 느슨해지거나 성능상 이점을 얻을 수도 있음 -> BeforeAll, AfterAll이 static method일 필요없음
-@TestInstance(TestInstance.Lifecycle.PER_CLASS)
+//@TestInstance(TestInstance.Lifecycle.PER_CLASS)
+// 일반적으로 나열된 메서드 순서에 의존하면 안 된다. 순서를 중요하게 생각해서도 안 되고
+@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 @DisplayNameGeneration(DisplayNameGenerator.ReplaceUnderscores.class)
 class StudyTest  {
 
+    @Order(2)
     @FastTest
     @DisplayName("스터디 만들기 fast")
 //    @EnabledOnOs({OS.MAC, OS.LINUX})
@@ -80,6 +83,7 @@ class StudyTest  {
     }
 
 //    @EnabledIfEnvironmentVariable(named = "TEST_ENV", matches = "youngjin")
+    @Order(1)
     @SlowTest
     @DisplayName("스터디 만들기 slow")
     void create_new_study_again() {
