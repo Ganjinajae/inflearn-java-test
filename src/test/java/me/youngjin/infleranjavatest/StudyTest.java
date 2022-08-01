@@ -14,8 +14,10 @@ class StudyTest  {
     }
 
     @Test
+    @Disabled("테스트")
     void create1() {
         System.out.println("create1");
+        assertNotNull("테스트");
     }
 
     @BeforeAll
