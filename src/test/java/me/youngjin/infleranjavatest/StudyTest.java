@@ -1,21 +1,18 @@
 package me.youngjin.infleranjavatest;
 
 import org.junit.jupiter.api.*;
-import org.junit.jupiter.api.condition.*;
 
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assumptions.assumeTrue;
-import static org.junit.jupiter.api.Assumptions.assumingThat;
 
 @DisplayNameGeneration(DisplayNameGenerator.ReplaceUnderscores.class)
 class StudyTest  {
 
-    @Test
-    @DisplayName("스터디 만들기")
+    @FastTest
+    @DisplayName("스터디 만들기 fast")
 //    @EnabledOnOs({OS.MAC, OS.LINUX})
 //    @EnabledOnJre({JRE.JAVA_8, JRE.JAVA_9, JRE.JAVA_10, JRE.JAVA_11})
 //    @EnabledIfEnvironmentVariable(named = "TEST_ENV", matches = "LOCAL")
-    @Tag("fast")
     void create_new_study() {
         String testEnv = System.getenv("TEST_ENV"); // vi ~/.zshrc
         System.out.println(testEnv);
@@ -67,9 +64,9 @@ class StudyTest  {
 //        );
     }
 
-    @Test
-    @Tag("slow") // 다른 환경에서 실행하고 싶을 때 tag를 써서 분리한다.
 //    @EnabledIfEnvironmentVariable(named = "TEST_ENV", matches = "youngjin")
+    @SlowTest
+    @DisplayName("스터디 만들기 slow")
     void create_new_study_again() {
         System.out.println("create1");
         assertNotNull("테스트");

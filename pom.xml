@@ -57,9 +57,6 @@
         </profile>
         <profile>
             <id>ci</id>
-            <activation>
-                <activeByDefault>true</activeByDefault>
-            </activation>
             <build>
                 <plugins>
                     <plugin>
