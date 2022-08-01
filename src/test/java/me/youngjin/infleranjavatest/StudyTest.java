@@ -1,6 +1,7 @@
 package me.youngjin.infleranjavatest;
 
 import org.junit.jupiter.api.*;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.api.extension.ParameterContext;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.aggregator.AggregateWith;
@@ -22,6 +23,7 @@ import static org.junit.jupiter.api.Assumptions.assumeTrue;
 // 일반적으로 나열된 메서드 순서에 의존하면 안 된다. 순서를 중요하게 생각해서도 안 되고
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 @DisplayNameGeneration(DisplayNameGenerator.ReplaceUnderscores.class)
+@ExtendWith(FindSlowTestExtension.class)
 class StudyTest  {
 
     int value = 1;
@@ -32,7 +34,8 @@ class StudyTest  {
 //    @EnabledOnOs({OS.MAC, OS.LINUX})
 //    @EnabledOnJre({JRE.JAVA_8, JRE.JAVA_9, JRE.JAVA_10, JRE.JAVA_11})
 //    @EnabledIfEnvironmentVariable(named = "TEST_ENV", matches = "LOCAL")
-    void create_new_study() {
+    void create_new_study() throws InterruptedException {
+        Thread.sleep(1005L);
         System.out.println(this);
         System.out.println("value: "+ value++);
         String testEnv = System.getenv("TEST_ENV"); // vi ~/.zshrc
@@ -90,7 +93,8 @@ class StudyTest  {
     @SlowTest
     @DisplayName("스터디 만들기 slow")
     @Disabled("disabled 테스트")
-    void create_new_study_again() {
+    void create_new_study_again() throws InterruptedException {
+        Thread.sleep(1005L);
         System.out.println(this);
         System.out.println("value: " + value++);
         System.out.println("create1");
