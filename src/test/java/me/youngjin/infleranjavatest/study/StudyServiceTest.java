@@ -11,6 +11,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
@@ -31,12 +32,13 @@ class StudyServiceTest {
         member.setId(1L);
         member.setEmail("youngjinjee@email.com");
         // 객체를 stubbing 하자
-        when(memberService.findById(1L)).thenReturn(Optional.of(member));
+        when(memberService.findById(any())).thenReturn(Optional.of(member));
 
         Study study = new Study(10, "java");
 
 //        studyService.createNewStudy(1L, study);
         assertEquals("youngjinjee@email.com", memberService.findById(1L).get().getEmail());
+        assertEquals("youngjinjee@email.com", memberService.findById(2L).get().getEmail());
     }
 
 }
