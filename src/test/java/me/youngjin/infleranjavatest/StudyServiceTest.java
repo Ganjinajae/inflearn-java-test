@@ -5,9 +5,8 @@ import me.youngjin.infleranjavatest.domain.Study;
 import me.youngjin.infleranjavatest.member.MemberService;
 import me.youngjin.infleranjavatest.study.StudyRepository;
 import me.youngjin.infleranjavatest.study.StudyService;
-import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.ArgumentMatchers;
@@ -17,6 +16,7 @@ import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.testcontainers.containers.PostgreSQLContainer;
+import org.testcontainers.junit.jupiter.Container;
 
 import java.util.Optional;
 
@@ -29,19 +29,14 @@ class StudyServiceTest {
     @Mock
     StudyRepository studyRepository;
 
+    // static 안 붙이면 각 테스트마다 인스턴스 만들어서 사용 -> beforeEach에서 데이터 삭제하고 사용하면 되니까
+    @Container
     static PostgreSQLContainer postgreSQLContainer = new PostgreSQLContainer()
             .withDatabaseName("studytest");
 
-    // manual 하게 container 관리
-    @BeforeAll
-    static void beforeAll() {
-        postgreSQLContainer.start();
-        System.out.println(postgreSQLContainer.getJdbcUrl());
-    }
-
-    @AfterAll
-    static void afterAll() {
-        postgreSQLContainer.stop();
+    @BeforeEach
+    void beforeEach() {
+        studyRepository.deleteAll();
     }
 
     @Test
