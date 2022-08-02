@@ -12,6 +12,7 @@ import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
@@ -33,12 +34,20 @@ class StudyServiceTest {
         member.setEmail("youngjinjee@email.com");
         // 객체를 stubbing 하자
         when(memberService.findById(any())).thenReturn(Optional.of(member));
-
-        Study study = new Study(10, "java");
-
 //        studyService.createNewStudy(1L, study);
         assertEquals("youngjinjee@email.com", memberService.findById(1L).get().getEmail());
         assertEquals("youngjinjee@email.com", memberService.findById(2L).get().getEmail());
+
+        // when은 리턴타입 있는 메서드를 확인할 때 쓰는데
+//        when(memberService.findById(any())).thenThrow(new RuntimeException());
+        // void 메서드 같은 경우는
+        doThrow(new IllegalArgumentException()).when(memberService).validate(1L);
+
+        assertThrows(IllegalArgumentException.class, () -> {
+            memberService.validate(1L);
+        });
+
+        memberService.validate(2L);
     }
 
 }
