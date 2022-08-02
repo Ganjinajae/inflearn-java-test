@@ -8,6 +8,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import javax.swing.text.html.Option;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -33,21 +34,18 @@ class StudyServiceTest {
         member.setId(1L);
         member.setEmail("youngjinjee@email.com");
         // 객체를 stubbing 하자
-        when(memberService.findById(any())).thenReturn(Optional.of(member));
-//        studyService.createNewStudy(1L, study);
-        assertEquals("youngjinjee@email.com", memberService.findById(1L).get().getEmail());
-        assertEquals("youngjinjee@email.com", memberService.findById(2L).get().getEmail());
+        when(memberService.findById(any()))
+                .thenReturn(Optional.of(member))
+                .thenThrow(new RuntimeException())
+                .thenReturn(Optional.empty());
 
-        // when은 리턴타입 있는 메서드를 확인할 때 쓰는데
-//        when(memberService.findById(any())).thenThrow(new RuntimeException());
-        // void 메서드 같은 경우는
-        doThrow(new IllegalArgumentException()).when(memberService).validate(1L);
-
-        assertThrows(IllegalArgumentException.class, () -> {
-            memberService.validate(1L);
+        Optional<Member> byId = memberService.findById(1L);
+        assertEquals("youngjinjee@email.com", byId.get().getEmail());
+        assertThrows(RuntimeException.class, () -> {
+            memberService.findById(2L);
         });
+        assertEquals(Optional.empty(), memberService.findById(3L));
 
-        memberService.validate(2L);
     }
 
 }
