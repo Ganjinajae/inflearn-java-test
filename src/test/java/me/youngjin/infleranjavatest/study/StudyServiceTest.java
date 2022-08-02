@@ -13,8 +13,7 @@ import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.doThrow;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 class StudyServiceTest {
@@ -33,19 +32,20 @@ class StudyServiceTest {
         Member member = new Member();
         member.setId(1L);
         member.setEmail("youngjinjee@email.com");
+        Study study = new Study(10, "테스트");
         // 객체를 stubbing 하자
-        when(memberService.findById(any()))
-                .thenReturn(Optional.of(member))
-                .thenThrow(new RuntimeException())
-                .thenReturn(Optional.empty());
+        when(memberService.findById(any())).thenReturn(Optional.of(member));
+        when(studyRepository.save(study)).thenReturn(study);
 
         Optional<Member> byId = memberService.findById(1L);
         assertEquals("youngjinjee@email.com", byId.get().getEmail());
-        assertThrows(RuntimeException.class, () -> {
-            memberService.findById(2L);
-        });
-        assertEquals(Optional.empty(), memberService.findById(3L));
 
+        studyService.createNewStudy(1L, study);
+
+        verify(memberService, times(1)).notify(study);
+        verify(memberService, never()).validate(any());
+
+        // inOrder, verifyNoMoreInteractions
     }
 
 }
