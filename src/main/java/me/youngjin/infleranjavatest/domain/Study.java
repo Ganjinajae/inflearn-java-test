@@ -1,4 +1,6 @@
-package me.youngjin.infleranjavatest;
+package me.youngjin.infleranjavatest.domain;
+
+import me.youngjin.infleranjavatest.StudyStatus;
 
 public class Study {
 
@@ -37,5 +39,8 @@ public class Study {
                 ", limit=" + limit +
                 ", name='" + name + '\'' +
                 '}';
+    }
+
+    public void setOwner(Member member) {
     }
 }
