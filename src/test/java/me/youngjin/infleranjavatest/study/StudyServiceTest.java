@@ -8,11 +8,13 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import javax.swing.text.html.Option;
 import java.util.Optional;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.BDDMockito.given;
+import static org.mockito.BDDMockito.then;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
@@ -26,6 +28,7 @@ class StudyServiceTest {
 
     @Test
     void createNewStudy(@Mock MemberService memberService, @Mock StudyRepository studyRepository) {
+        // given
         StudyService studyService = new StudyService(memberService, studyRepository); // 구현체가 없는 경우 mock을 사용하기 좋다.
         assertNotNull(studyService);
 
@@ -37,13 +40,21 @@ class StudyServiceTest {
         when(memberService.findById(any())).thenReturn(Optional.of(member));
         when(studyRepository.save(study)).thenReturn(study);
 
+        given(memberService.findById(1L)).willReturn(Optional.of(member));
+        given(studyRepository.save(study)).willReturn(study);
+
         Optional<Member> byId = memberService.findById(1L);
         assertEquals("youngjinjee@email.com", byId.get().getEmail());
 
+        // when
         studyService.createNewStudy(1L, study);
 
+        // then
         verify(memberService, times(1)).notify(study);
+        then(memberService).should(times(1)).notify(study);
+
         verify(memberService, never()).validate(any());
+        then(memberService).shouldHaveNoMoreInteractions();
 
         // inOrder, verifyNoMoreInteractions
     }
