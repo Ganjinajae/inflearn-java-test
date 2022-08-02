@@ -11,14 +11,14 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 @ExtendWith(MockitoExtension.class)
 class StudyServiceTest {
 
-    @Mock
-    MemberService memberService;
-
-    @Mock
-    StudyRepository studyRepository;
+//    @Mock
+//    MemberService memberService;
+//
+//    @Mock
+//    StudyRepository studyRepository;
 
     @Test
-    void createStudyService() {
+    void createStudyService(@Mock MemberService memberService, @Mock StudyRepository studyRepository) {
         StudyService studyService = new StudyService(memberService, studyRepository); // 구현체가 없는 경우 mock을 사용하기 좋다.
         assertNotNull(studyService);
     }
