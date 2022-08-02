@@ -11,7 +11,11 @@ import java.lang.reflect.Method;
  */
 public class FindSlowTestExtension implements BeforeTestExecutionCallback, AfterTestExecutionCallback {
 
-    private static final long THRESHOLD = 1000L;
+    private long THRESHOLD = 1000L;
+
+    public FindSlowTestExtension(long THRESHOLD) {
+        this.THRESHOLD = THRESHOLD;
+    }
 
     @Override
     public void beforeTestExecution(ExtensionContext extensionContext) throws Exception {

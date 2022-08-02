@@ -3,6 +3,7 @@ package me.youngjin.infleranjavatest;
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.api.extension.ParameterContext;
+import org.junit.jupiter.api.extension.RegisterExtension;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.aggregator.AggregateWith;
 import org.junit.jupiter.params.aggregator.ArgumentsAccessor;
@@ -23,10 +24,14 @@ import static org.junit.jupiter.api.Assumptions.assumeTrue;
 // 일반적으로 나열된 메서드 순서에 의존하면 안 된다. 순서를 중요하게 생각해서도 안 되고
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 @DisplayNameGeneration(DisplayNameGenerator.ReplaceUnderscores.class)
-@ExtendWith(FindSlowTestExtension.class)
+//@ExtendWith(FindSlowTestExtension.class)
 class StudyTest  {
 
     int value = 1;
+
+    // 코드적으로 만드는 방법 인자를 넘기고 싶을 때
+    @RegisterExtension
+    static FindSlowTestExtension findSlowTestExtension = new FindSlowTestExtension(1000L);
 
     @Order(2)
     @FastTest
