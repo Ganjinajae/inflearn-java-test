@@ -1,4 +1,4 @@
-package me.youngjin.infleranjavatest;
+package me.youngjin.infleranjavatest.domain;
 
 public enum StudyStatus {
 

@@ -3,7 +3,6 @@ package me.youngjin.infleranjavatest.domain;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import me.youngjin.infleranjavatest.StudyStatus;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
