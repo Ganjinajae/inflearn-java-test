@@ -3,9 +3,11 @@ package me.youngjin.infleranjavatest.study;
 import me.youngjin.infleranjavatest.domain.Member;
 import me.youngjin.infleranjavatest.domain.Study;
 import me.youngjin.infleranjavatest.member.MemberService;
+import org.springframework.stereotype.Service;
 
 import java.util.Optional;
 
+@Service
 public class StudyService {
 
     private final MemberService memberService;

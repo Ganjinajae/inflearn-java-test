@@ -47,7 +47,7 @@ class StudyTest  {
         assumeTrue("LOCAL".equalsIgnoreCase(testEnv));
         System.out.println("local");
         Study actual = new Study(10);
-        org.assertj.core.api.Assertions.assertThat(actual.getLimit()).isGreaterThan(5);
+        org.assertj.core.api.Assertions.assertThat(actual.getLimitation()).isGreaterThan(5);
         // 이런 환경변수 값에 따라 실행을 다르게 할 수 있다.
 //        assumingThat("LOCAL".equalsIgnoreCase(testEnv), () -> {
 //            System.out.println("local");
@@ -120,7 +120,7 @@ class StudyTest  {
 //    @NullAndEmptySource
     void parameterizedTest(@AggregateWith(StudyAggregator.class) Study study) {
         assertNotNull("Parameterized Test 테스트");
-        System.out.println(study.getLimit());
+        System.out.println(study.getLimitation());
     }
 
     // public class 이거나 static inner class 이어야만 가능함
